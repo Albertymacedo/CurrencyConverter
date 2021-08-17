@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping ({"/contacts"})
+@RequestMapping ("/contacts")
 
 public class ContactController {
     private ContactRepository repository;
 
     public ContactController(ContactRepository contactRepository) {
-        this.repository = repository;
+        this.repository = contactRepository;
 
     }
    @GetMapping
     public List findAll() {
         return repository.findAll();
    }
-   @GetMapping(path = {"/{id}"})
+   @GetMapping(path = "/id")
     public ResponseEntity<Contact> findById(@PathVariable long id) {
         return repository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
@@ -32,7 +32,7 @@ public class ContactController {
         return repository.save(contact);
     }
 
-    @PutMapping (value="/{id}")
+    @PutMapping (value="/id")
     public ResponseEntity<Contact> update(@PathVariable("id") long id,
                                           @RequestBody Contact contact){
         return repository.findById(id)
@@ -45,7 +45,7 @@ public class ContactController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping(path = {"/{id}"})
+    @DeleteMapping(path = {"/id"})
     public ResponseEntity<?> delete(@PathVariable("id") long id){
 
         return repository.findById(id)
